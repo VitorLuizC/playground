@@ -1,0 +1,36 @@
+lockfileVersion: 5.3
+
+importers:
+
+  .:
+    specifiers:
+      pnpm: ^6.13.0
+    dependencies:
+      pnpm: 6.13.0
+
+  experiments/json:
+    specifiers:
+      '@bitty/json': file:bitty-json-0.1.1.tgz
+      '@types/node': ^16.7.1
+    dependencies:
+      '@bitty/json': file:experiments/json/bitty-json-0.1.1.tgz
+    devDependencies:
+      '@types/node': 16.7.1
+
+packages:
+
+  /@types/node/16.7.1:
+    resolution: {integrity: sha512-ncRdc45SoYJ2H4eWU9ReDfp3vtFqDYhjOsKlFFUDEn8V1Bgr2RjYal8YT5byfadWIRluhPFU6JiDOl0H6Sl87A==}
+    dev: true
+
+  /pnpm/6.13.0:
+    resolution: {integrity: sha512-dQE0WtzS8Rs6UEpsKeFxHjLPqMHM94v45IhmHX5A/w3V5tEvx4A2PzKBtOF5brJp7SPLyzAnY4L/w/BpBV6qxw==}
+    engines: {node: '>=12.17'}
+    hasBin: true
+    dev: false
+
+  file:experiments/json/bitty-json-0.1.1.tgz:
+    resolution: {integrity: sha512-VvETcFz5MYbMV/nr5lJ0CQc3X+pOVQK9PapsblD7dhfuj556nYOgjAAhg+LlA2d5oGi2YxIyPG3mK1ltJY6+Iw==, tarball: file:experiments/json/bitty-json-0.1.1.tgz}
+    name: '@bitty/json'
+    version: 0.1.1
+    dev: false
