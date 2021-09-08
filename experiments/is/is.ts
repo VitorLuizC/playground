@@ -10,6 +10,9 @@ import ValueNode from './nodes/ValueNode';
 import OperatorNode from './nodes/OperatorNode';
 import PredicateNode from './nodes/PredicateNode';
 import operators from './operators/operators';
+import type BinaryFunction from './types/BinaryFunction';
+import type Predicate from './Predicate';
+import type UnaryFunction from './types/UnaryFunction';
 
 const SEQUENCE_OF_WHITE_SPACES = /\s+/;
 
@@ -138,7 +141,46 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
     }
   });
 
-  return tree;
+  // Evaluating
+  return evaluate(tree) as Predicate  
+}
+
+function evaluate(node: Node): unknown {
+  switch (node.type) {
+    case NodeType.ROOT: {
+      if (!node.children)
+        throw new Error('A expressão não pode ser vazia.');
+      return evaluate(node.children);
+    }
+  
+    case NodeType.VALUE: {
+      return node.value;
+    }
+  
+    case NodeType.OPERATOR: {
+      if (Array.isArray(node.children)) {
+        const argumentA = evaluate(node.children[0]);
+  
+        if (!node.children[1])
+          throw new Error('A operação não recebeu o segundo argumento.');
+  
+        const argumentB = evaluate(node.children[1]);
+        const operator = node.operator as BinaryFunction<Predicate>;
+        return operator(argumentA, argumentB);
+      } else {
+        if (!node.children)
+          throw new Error('A operação não recebeu o primeiro argumento.');
+  
+        const operator = node.operator as UnaryFunction<Predicate>;
+        const argument = evaluate(node.children);
+        return operator(argument);
+      }
+    }
+  
+    case NodeType.PREDICATE: {
+      return node.predicate;
+    }
+  }
 }
 
 export default is;

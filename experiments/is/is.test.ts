@@ -1,10 +1,14 @@
 import is from './is';
 
-test('creates predicates to test each value type', () => {
-  console.log("is`string`", is`string`);
-  console.log("is`not string`", is`not string`);
-  console.log("is`string or number`", is`string or number`);
-  console.log("is`string and equals ${'Vitor'}`", is`string and equals ${'Vitor'}`);
+test('creates a predicate function', () => {
+  expect(is`string`('foo')).toBe(true);
+  expect(is`string`(1)).toBe(false);
 
-  expect(1).toBe(1);
+  expect(is`string or number`('foo')).toBe(true);
+  expect(is`string or number`(1)).toBe(true);
+  expect(is`string or number`(true)).toBe(false);
+  
+  expect(is`number or equals ${'Vitor'}`('foo')).toBe(false);
+  expect(is`number or equals ${'Vitor'}`(1)).toBe(true);
+  expect(is`number or equals ${'Vitor'}`('Vitor')).toBe(true);
 });
