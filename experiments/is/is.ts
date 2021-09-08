@@ -41,11 +41,13 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
   let parentNode: RootNode | OperatorNode = tree;
 
   tokens.forEach((token) => {
+    if (token === '') return;
+
     // Interpolações
     if (typeof token !== 'string') {
-      if (parentNode.type !== NodeType.OPERATOR) {
-        throw new Error(`Não há operação para receber o valor "${token.value}"`);
-      }
+      // if (parentNode.type !== NodeType.OPERATOR) {
+      //   throw new Error(`Não há operação para receber o valor "${token.value}"`);
+      // }
 
       const node = new ValueNode({
         value: token.value,
@@ -58,11 +60,28 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
         parentNode.children = node;
       }
 
-      lastNode = node;
+      // SACANAGEM
+      if (parentNode.type === NodeType.OPERATOR) {
+        const predicateNode = new PredicateNode({
+          parent: parentNode.parent,
+          predicate: evaluate(parentNode) as Predicate,
+        });
+
+
+        lastNode = predicateNode;
+        parentNode = parentNode.parent;
+
+        if (Array.isArray(parentNode.children)) {
+          parentNode.children[1] = predicateNode;
+        } else {
+          parentNode.children = predicateNode;
+        }
+      } else {
+        lastNode = node;
+      }
+
       return;
     }
-
-    if (token === '') return;
 
     // Operações
     if (token in operators) {
@@ -75,16 +94,16 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
       });
 
       if (operator.type === OperatorType.POSTFIX) {
-        if (parentNode.type === NodeType.ROOT)
+        if (lastNode.type === NodeType.ROOT)
           throw new Error(`A expressão não pode começar com "${token}".`);
 
         node.children = lastNode;
 
         // Substitui o nó atual pelo nó criado que vai conter o atual.
-        if (Array.isArray(parentNode.parent.children)) {
-          parentNode.parent.children.splice(parentNode.parent.children.indexOf(parentNode), 1, node as OperatorNode);
+        if (Array.isArray(lastNode.parent.children)) {
+          lastNode.parent.children.splice(lastNode.parent.children.indexOf(lastNode), 1, node as OperatorNode);
         } else {
-          parentNode.parent.children = node as OperatorNode;
+          lastNode.parent.children = node as OperatorNode;
         }
 
         parentNode = node as OperatorNode;
@@ -94,6 +113,16 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
         if (lastNode.type === NodeType.ROOT) {
           throw new Error(`A expressão não pode começar com "${token}".`);
         }
+
+        // equals
+        //   ↓
+        //   2
+
+        //  or
+        //   ↓   ↘
+        // equals ?
+        //   ↓
+        //   2
 
         node.children = [lastNode, null];
 
@@ -136,7 +165,26 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
         parentNode.children = node;
       }
 
-      lastNode = node;
+      // SACANAGEM
+      if (parentNode.type === NodeType.OPERATOR) {
+        const predicateNode = new PredicateNode({
+          parent: parentNode.parent,
+          predicate: evaluate(parentNode) as Predicate,
+        });
+
+
+        lastNode = predicateNode;
+        parentNode = parentNode.parent;
+
+        if (Array.isArray(parentNode.children)) {
+          parentNode.children[1] = predicateNode;
+        } else {
+          parentNode.children = predicateNode;
+        }
+      } else {
+        lastNode = node;
+      }
+
       return;
     }
   });
@@ -159,17 +207,18 @@ function evaluate(node: Node): unknown {
   
     case NodeType.OPERATOR: {
       if (Array.isArray(node.children)) {
-        const argumentA = evaluate(node.children[0]);
+        const [left, right] = node.children;
+        const argumentA = evaluate(left);
   
-        if (!node.children[1])
+        if (!right)
           throw new Error('A operação não recebeu o segundo argumento.');
   
-        const argumentB = evaluate(node.children[1]);
+        const argumentB = evaluate(right);
         const operator = node.operator as BinaryFunction<Predicate>;
         return operator(argumentA, argumentB);
       } else {
         if (!node.children)
-          throw new Error('A operação não recebeu o primeiro argumento.');
+          throw new Error('A operação não recebeu o argumento.');
   
         const operator = node.operator as UnaryFunction<Predicate>;
         const argument = evaluate(node.children);

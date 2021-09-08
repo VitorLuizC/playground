@@ -13,12 +13,15 @@ export enum OperatorType {
   POSTFIX,
 }
 
-type Operator = {
-  type: OperatorType;
-  operator:
-    | UnaryFunction<Predicate>
-    | BinaryFunction<Predicate>;
-};
+type Operator =
+  | {
+    type: OperatorType.PREFIX | OperatorType.POSTFIX;
+    operator: UnaryFunction<Predicate>;
+  }
+  | {
+    type: OperatorType.INFIX;
+    operator: BinaryFunction<Predicate>;
+  }
 
 const operators: Record<string, Operator> = {
   'not': {
