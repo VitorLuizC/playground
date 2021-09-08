@@ -8,7 +8,8 @@ type Options = {
 };
 
 class ValueNode {
-  type = NodeType.VALUE;
+  readonly type = NodeType.VALUE;
+
   value: unknown;
   parent: OperatorNode;
 

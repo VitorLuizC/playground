@@ -15,7 +15,8 @@ type Options = {
 };
 
 class OperatorNode {
-  type = NodeType.OPERATOR;
+  readonly type = NodeType.OPERATOR;
+
   parent: RootNode | OperatorNode;
   children: null | Node | [Node, null | Node];
   operator:

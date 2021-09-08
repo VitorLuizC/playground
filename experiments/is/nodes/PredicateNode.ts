@@ -10,7 +10,8 @@ type Options = {
 }
 
 class PredicateNode {
-  type = NodeType.PREDICATE;
+  readonly type = NodeType.PREDICATE;
+
   parent: RootNode | OperatorNode;
   predicate: Predicate;
 
