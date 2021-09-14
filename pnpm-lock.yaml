@@ -31,6 +31,20 @@ importers:
     devDependencies:
       '@types/node': 16.7.1
 
+  experiments/tuple:
+    specifiers:
+      '@types/jest': ^27.0.1
+      jest: ^27.1.0
+      ts-jest: ^27.0.5
+      ts-jest-resolver: ^1.1.0
+      typescript: ^4.4.2
+    devDependencies:
+      '@types/jest': 27.0.1
+      jest: 27.1.0
+      ts-jest: 27.0.5_d6279bcaf6e2c6aa91a58343d133ee67
+      ts-jest-resolver: 1.1.0
+      typescript: 4.4.2
+
 packages:
 
   /@babel/code-frame/7.14.5:
