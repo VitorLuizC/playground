@@ -48,10 +48,13 @@ importers:
   experiments/tuple:
     specifiers:
       '@types/jest': ^27.0.1
+      const: link:../const
       jest: ^27.1.0
       ts-jest: ^27.0.5
       ts-jest-resolver: ^1.1.0
       typescript: ^4.4.2
+    dependencies:
+      const: link:../const
     devDependencies:
       '@types/jest': 27.0.1
       jest: 27.1.0
@@ -1278,6 +1281,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
