@@ -1,8 +1,11 @@
 {
   "name": "const",
   "main": "dist/main.js",
+  "types": "types/main.d.js",
+  "files": ["dist/", "types/"],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc --project ./tsconfig.build.json"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",

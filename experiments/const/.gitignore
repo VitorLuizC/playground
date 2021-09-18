@@ -1,0 +1,5 @@
+# Transpiled modules and their source-maps.
+/dist
+
+# Generated type declarations and their source-maps.
+/types

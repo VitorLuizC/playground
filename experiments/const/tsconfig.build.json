@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+
+    // Type declarations settings.
+    "declaration": true,
+    "declarationDir": "./types",
+    "declarationMap": true,
+
+    // Output settings.
+    "charset": "utf-8",
+    "newLine": "lf",
+    "outDir": "./dist",
+    "removeComments": true,
+    "sourceMap": true,
+  },
+  "exclude": ["./src/**/*.test.ts"]
+}
