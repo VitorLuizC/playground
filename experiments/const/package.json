@@ -4,7 +4,7 @@
   "types": "types/main.d.js",
   "files": ["dist/", "types/"],
   "scripts": {
-    "test": "jest",
+    "test": "node --expose-gc node_modules/jest/bin/jest.js",
     "build": "tsc --project ./tsconfig.build.json"
   },
   "devDependencies": {
