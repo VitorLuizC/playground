@@ -12,7 +12,7 @@ test('creates a predicate function', () => {
   expect(is`number or equals ${'Vitor'}`(1)).toBe(true);
   expect(is`number or equals ${'Vitor'}`('Vitor')).toBe(true);
 
-  expect(is`number and equals ${2} or equals ${2}`(2)).toBe(true);
+  expect(is`number and equals ${2} or equals ${1}`(2)).toBe(true);
   expect(is`number and equals ${2} or equals ${1}`(1)).toBe(true);
   expect(is`number and equals ${2} or equals ${1}`(0)).toBe(false);
 });

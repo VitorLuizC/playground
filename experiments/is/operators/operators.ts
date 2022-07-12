@@ -13,6 +13,12 @@ export enum OperatorType {
   POSTFIX,
 }
 
+// "not" string
+
+// string "or" number
+
+// xx "x"
+
 type Operator =
   | {
     type: OperatorType.PREFIX | OperatorType.POSTFIX;

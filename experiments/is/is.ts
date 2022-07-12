@@ -22,6 +22,40 @@ enum OperatorType {
   POSTFIX,
 }
 
+// is`string or equals ${"Vitor"}`;
+
+// ..:: arguments ::..
+// ["string or equals ", ""]
+// ["Vitor"]
+
+// ..:: tokenization ::..
+// ["string", "or", "equals", "", { value: "Vitor" }, ""]
+
+// ..:: parsealization ::..
+// RootNode {
+//   OperatorNode {
+//     operator: OR;
+//     PredicateNode {
+//       predicate: isString;
+//     }
+//     PredicateNode {
+//       predicate: isEquals("Vitor");
+//     }
+//   }
+// }
+
+//       root
+//         ↓
+//        O R
+//    ↙        ↘
+// isString  isEquals("Vitor")
+
+// ..:: evaluation ::..
+// or(isString, isEquals("Vitor"))
+
+// isString, not(isNumber)
+
+
 function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
 
   // Tokenization
@@ -54,19 +88,27 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
         parent: parentNode,
       });
 
+      // Atualiza a árvore.
       if (Array.isArray(parentNode.children)) {
         parentNode.children[1] = node;
       } else {
         parentNode.children = node;
       }
 
+      //  raiz
+      //   ↓
+      // equals  - OPERAÇÃO
+      //   ↓
+      // "Vitor" - VALOR
+
       // SACANAGEM
+      // equals("Vitor") - PREDICADO
+
       if (parentNode.type === NodeType.OPERATOR) {
         const predicateNode = new PredicateNode({
           parent: parentNode.parent,
           predicate: evaluate(parentNode) as Predicate,
         });
-
 
         lastNode = predicateNode;
         parentNode = parentNode.parent;
@@ -101,12 +143,10 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
 
         // Substitui o nó atual pelo nó criado que vai conter o atual.
         if (Array.isArray(lastNode.parent.children)) {
-          lastNode.parent.children.splice(lastNode.parent.children.indexOf(lastNode), 1, node as OperatorNode);
+          lastNode.parent.children.splice(lastNode.parent.children.indexOf(lastNode), 1, node);
         } else {
-          lastNode.parent.children = node as OperatorNode;
+          lastNode.parent.children = node;
         }
-
-        parentNode = node as OperatorNode;
       }
 
       if (operator.type === OperatorType.INFIX) {
@@ -132,22 +172,17 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
         } else {
           lastNode.parent.children = node;
         }
-
-        parentNode = node;
       }
 
       if (operator.type === OperatorType.PREFIX) {
-        node.children = null;
-
         if (Array.isArray(parentNode.children)) {
           parentNode.children[1] = node;
         } else {
           parentNode.children = node;
         }
-
-        parentNode = node;
       }
 
+      parentNode = node;
       lastNode = node;
       return;
     }
@@ -171,7 +206,6 @@ function is(keywords: TemplateStringsArray, ...interpolations: unknown[]) {
           parent: parentNode.parent,
           predicate: evaluate(parentNode) as Predicate,
         });
-
 
         lastNode = predicateNode;
         parentNode = parentNode.parent;
@@ -219,9 +253,9 @@ function evaluate(node: Node): unknown {
       } else {
         if (!node.children)
           throw new Error('A operação não recebeu o argumento.');
-  
-        const operator = node.operator as UnaryFunction<Predicate>;
+        
         const argument = evaluate(node.children);
+        const operator = node.operator as UnaryFunction<Predicate>;
         return operator(argument);
       }
     }
