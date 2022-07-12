@@ -1,0 +1,25 @@
+"use strict";
+exports.__esModule = true;
+var Type;
+(function (Type) {
+    Type["NEUTRAL"] = "NEUTRAL";
+    Type["NORMAL"] = "NORMAL";
+    Type["FIRE"] = "FIRE";
+    Type["WATER"] = "WATER";
+    Type["ELECTRIC"] = "ELECTRIC";
+    Type["GRASS"] = "GRASS";
+    Type["ICE"] = "ICE";
+    Type["FIGHTING"] = "FIGHTING";
+    Type["POISON"] = "POISON";
+    Type["GROUND"] = "GROUND";
+    Type["FLYING"] = "FLYING";
+    Type["PSYCHIC"] = "PSYCHIC";
+    Type["BUG"] = "BUG";
+    Type["ROCK"] = "ROCK";
+    Type["GHOST"] = "GHOST";
+    Type["DRAGON"] = "DRAGON";
+    Type["DARK"] = "DARK";
+    Type["STEEL"] = "STEEL";
+    Type["FAIRY"] = "FAIRY";
+})(Type || (Type = {}));
+exports["default"] = Type;
