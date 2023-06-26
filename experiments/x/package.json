@@ -1,0 +1,14 @@
+{
+  "name": "x",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-jest-resolver": "^2.0.1",
+    "typescript": "^5.0.4"
+  }
+}
