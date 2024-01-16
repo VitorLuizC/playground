@@ -1,4 +1,4 @@
-import Const, { registry } from './main.js';
+import Const, { ConstOf, registry } from './main.js';
 
 describe('Const | unit test', () => {
   it('creates objects with received value as property', () => {
@@ -14,18 +14,27 @@ describe('Const | unit test', () => {
   });
 
   it("doesn't cause memory leaks", async () => {
-    await new Promise<void>((resolve) => {
-      Const('Vitor');
-  
-      expect(registry.has('Vitor')).toBe(true);
+    type User = {
+      name?: ConstOf<string>;
+    };
 
-      resolve();
-    });
+    const user: User = {
+      name: Const('Vitor'),
+    };
 
-    global.gc?.();
+    expect(registry.has('Vitor')).toBe(true);
+
+    delete user?.name;
+
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+
+    gc?.();
+
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
 
     const ref = registry.get('Vitor');
 
-    expect(ref?.deref()).toBe(undefined);
+    expect(ref?.deref()).toBeUndefined();
+    expect(registry.has('Vitor')).toBe(false);
   });
 });

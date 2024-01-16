@@ -1,232 +1,292 @@
 import Effectiveness from './Effectiveness';
 import Type from './Type';
+import TYPES_EFFECTIVENESSES, {
+  TypeEffectivenesses,
+} from './TypeEffectiveness';
 
-type TypeEffectiveness = Record<Type, Effectiveness>;
+type Entry = [Type, TypeEffectivenesses];
 
-const NEUTRAL_EFFECTIVENESS = Object.values(Type).reduce((effectivity, type) => ({
-  ...effectivity,
-  [type]: Effectiveness.EFFECTIVE,
-}), {} as TypeEffectiveness);
+const entries = Object.entries(TYPES_EFFECTIVENESSES) as Entry[];
 
-const x: Record<Type, TypeEffectiveness> = {
-  [Type.NEUTRAL]: NEUTRAL_EFFECTIVENESS,
-  [Type.NORMAL]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.ROCK]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GHOST]: Effectiveness.NO_EFFECT,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.FIRE]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.WATER]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ICE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.BUG]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.DRAGON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.SUPER_EFFECTIVE,
-  },
-  [Type.WATER]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.WATER]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GROUND]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DRAGON]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.ELECTRIC]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.WATER]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ELECTRIC]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GROUND]: Effectiveness.NO_EFFECT,
-    [Type.FLYING]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DRAGON]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.GRASS]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.WATER]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.POISON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GROUND]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FLYING]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.BUG]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DRAGON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.ICE]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.WATER]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ICE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GROUND]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FLYING]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DRAGON]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.FIGHTING]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.NORMAL]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ICE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.POISON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FLYING]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.PSYCHIC]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.BUG]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.GHOST]: Effectiveness.NO_EFFECT,
-    [Type.DARK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FAIRY]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.POISON]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.GRASS]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.POISON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GROUND]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GHOST]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NO_EFFECT,
-    [Type.FAIRY]: Effectiveness.SUPER_EFFECTIVE,
-  },
-  [Type.GROUND]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ELECTRIC]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.POISON]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FLYING]: Effectiveness.NO_EFFECT,
-    [Type.BUG]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.SUPER_EFFECTIVE,
-  },
-  [Type.FLYING]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.ELECTRIC]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FIGHTING]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.BUG]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.PSYCHIC]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIGHTING]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.POISON]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.PSYCHIC]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.DARK]: Effectiveness.NO_EFFECT,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.BUG]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GRASS]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FIGHTING]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.POISON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FLYING]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.PSYCHIC]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.GHOST]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.DARK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.ROCK]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ICE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.FIGHTING]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.GROUND]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FLYING]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.BUG]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.GHOST]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.NORMAL]: Effectiveness.NO_EFFECT,
-    [Type.PSYCHIC]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.GHOST]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DARK]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.DRAGON]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.DRAGON]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FAIRY]: Effectiveness.NO_EFFECT,
-  },
-  [Type.DARK]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIGHTING]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.PSYCHIC]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.GHOST]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DARK]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FAIRY]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-  [Type.STEEL]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.WATER]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.ELECTRIC]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.ICE]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.ROCK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FAIRY]: Effectiveness.SUPER_EFFECTIVE,
-  },
-  [Type.FAIRY]: {
-    ...NEUTRAL_EFFECTIVENESS,
-    [Type.FIRE]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.FIGHTING]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.POISON]: Effectiveness.NOT_VERY_EFFECTIVE,
-    [Type.DRAGON]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.DARK]: Effectiveness.SUPER_EFFECTIVE,
-    [Type.STEEL]: Effectiveness.NOT_VERY_EFFECTIVE,
-  },
-};
-
-type Entry = [Type, TypeEffectiveness];
-
-const entries = Object.entries(x) as Entry[];
-
-function hasNoEffect([, effectiveness]: Entry): boolean {
-  return Object.values(effectiveness).indexOf(Effectiveness.NO_EFFECT) !== -1;
+function getTypesByEffectivenessAgainst(
+  type: Type,
+  effectiveness: Effectiveness,
+) {
+  return Object.entries(TYPES_EFFECTIVENESSES)
+    .filter(([, effectivenesses]) => {
+      return effectivenesses[type] === effectiveness;
+    })
+    .map(([type]) => type as Type);
 }
 
-const TYPES_WITH_NO_EFFECT = entries.filter(hasNoEffect).map(([type]) => type);
+console.log(
+  `
+  Types with at least one "no effect" againt it: `,
+  entries
+    .map(([type]) => ({
+      type,
+      noEffectAgainstIt: getTypesByEffectivenessAgainst(
+        type,
+        Effectiveness.NO_EFFECT,
+      ),
+    }))
+    .filter((x) => x.noEffectAgainstIt.length)
+    .map(
+      (x) =>
+        `${x.type} (${x.noEffectAgainstIt.join(', ')} does "no effect" on it)`,
+    ),
+);
 
-console.log('Types with at least one no effect: ', TYPES_WITH_NO_EFFECT);
-
-function calcEffectivity(effectivenesses: Effectiveness[]): number {
-  return effectivenesses.reduce((sum, effectiveness) => {
-    switch (effectiveness) {
-      case Effectiveness.SUPER_EFFECTIVE:
-        return sum + 2;
-      case Effectiveness.EFFECTIVE:
-        return sum + 1;
-      case Effectiveness.NOT_VERY_EFFECTIVE:
-        return sum - 1;
-      case Effectiveness.NO_EFFECT:
-        return sum - 2;
-      default:
-        return sum;
-    }
-  }, 0);
+function toAttackScore(effectiveness: Effectiveness): number {
+  switch (effectiveness) {
+    case Effectiveness.SUPER_EFFECTIVE:
+      return +2;
+    case Effectiveness.EFFECTIVE:
+      return +1;
+    case Effectiveness.NOT_VERY_EFFECTIVE:
+      return -1;
+    case Effectiveness.NO_EFFECT:
+      return -2;
+    default:
+      throw new Error(`Unknown effectiveness "${String(effectiveness)}"`);
+  }
 }
 
 function not<T>(predicate: (value: T) => boolean): (value: T) => boolean {
   return (value: T) => !predicate(value);
 }
 
-const TYPES_SORTED_BY_EFFECTIVITY = entries.filter(not(hasNoEffect)).sort(
-  ([, effectivenessA], [, effectivenessB]) => {
-    const valuesA = Object.values(effectivenessA);
-    const valuesB = Object.values(effectivenessB);
+console.log(
+  `
+  Types sorted by effectivity against other types, where "super effective" means
+  +2; "effective" means +1; "not very effective" means -1; and "no effect" means
+  -2: `,
+  [...entries]
+    .sort(([, effectivenessA], [, effectivenessB]) => {
+      function calc(effectivenesses: TypeEffectivenesses): number {
+        let count = 0;
 
-    return calcEffectivity(valuesB) - calcEffectivity(valuesA);
+        // The 'type' in here is the defender one
+        for (const type in effectivenesses) {
+          count += toAttackScore(effectivenesses[type as Type]);
+        }
+
+        return count;
+      }
+
+      return calc(effectivenessB) - calc(effectivenessA);
+    })
+    .map(([type]) => type),
+);
+
+function toAttackWithDefenseScore(
+  attack_effectiveness: Effectiveness,
+  defense_effectiveness: Effectiveness,
+) {
+  // Attack effectiveness against another type.
+  switch (attack_effectiveness) {
+    case Effectiveness.NO_EFFECT:
+      switch (defense_effectiveness) {
+        case Effectiveness.NO_EFFECT:
+          return 1.0;
+
+        // Doesn't work.
+        case Effectiveness.NOT_VERY_EFFECTIVE:
+        case Effectiveness.EFFECTIVE:
+        case Effectiveness.SUPER_EFFECTIVE:
+          return 0.0;
+      }
+
+    case Effectiveness.NOT_VERY_EFFECTIVE:
+      switch (defense_effectiveness) {
+        case Effectiveness.NO_EFFECT:
+          return 2.0;
+
+        // Doesn't work.
+        case Effectiveness.NOT_VERY_EFFECTIVE:
+        case Effectiveness.EFFECTIVE:
+        case Effectiveness.SUPER_EFFECTIVE:
+          return 0.0;
+      }
+
+    case Effectiveness.EFFECTIVE:
+      switch (defense_effectiveness) {
+        case Effectiveness.NO_EFFECT:
+          return 2.0;
+
+        case Effectiveness.NOT_VERY_EFFECTIVE:
+          return 1.0;
+
+        // Doesn't work.
+        case Effectiveness.EFFECTIVE:
+        case Effectiveness.SUPER_EFFECTIVE:
+          return 0;
+      }
+
+    case Effectiveness.SUPER_EFFECTIVE:
+      switch (defense_effectiveness) {
+        case Effectiveness.NO_EFFECT:
+          return 4.0;
+
+        case Effectiveness.NOT_VERY_EFFECTIVE:
+          return 3.0;
+
+        case Effectiveness.EFFECTIVE:
+          return 2.0;
+
+        case Effectiveness.SUPER_EFFECTIVE:
+          return 1.0;
+      }
   }
-).map(([type]) => type);
+}
 
-console.log('Types sorted by effectivity: ', TYPES_SORTED_BY_EFFECTIVITY);
+const CLANS = {
+  VULCANIC: [Type.FIRE],
+  NATURIA: [Type.GRASS, Type.BUG],
+  WINGEON: [Type.FLYING, Type.DRAGON],
+  SEAVELL: [Type.WATER, Type.ICE],
+  OREBOUND: [Type.ROCK, Type.GROUND],
+  PSYCRAFT: [Type.PSYCHIC, Type.FAIRY],
+  MALEFIC: [Type.GHOST, Type.DARK, Type.POISON],
+  IRONHARD: [Type.STEEL],
+  GARDSTRIKE: [Type.NORMAL, Type.FIGHTING],
+  RAIBOLT: [Type.ELECTRIC],
+}
+
+console.log(
+  `
+  Same as before, but also considers other types effectivity against it, where
+  "no effect" means +2; "not very effective" means +1; "effective" means -1; and
+  "super effective" means -2: `,
+  [...entries]
+    .map(([attacker_type, effectivenesses]) => ({
+      type: attacker_type,
+      advantages: Object.fromEntries(
+        Object.entries(effectivenesses).map(
+          ([defender_type, attack_effectiveness]) =>
+            [
+              defender_type,
+              toAttackWithDefenseScore(
+                attack_effectiveness,
+                TYPES_EFFECTIVENESSES[defender_type as Type][attacker_type],
+              ),
+            ] as const,
+        )
+        .filter(([_, value]) => value >= 2),
+      ),
+    }))
+    
+    .sort((xA, xB) => {
+      const calc = (advantages: Record<string, number>) =>
+        Object.values(advantages).reduce((sum, value) => sum + value, 0);
+
+      return calc(xB.advantages) - calc(xA.advantages);
+    })
+    .map(
+      (x) =>
+        `${x.type} (wins against ${
+          Object.entries(x.advantages)
+            .filter(([, value]) => value > 0)
+            .sort((x0, x1) => x1[1] - x0[1])
+            .map(([type, value]) => `${type}${'+'.repeat(value - 1)}`)
+            .join(', ')||'nothing'
+        })`,
+    ),
+);
+
+console.log(
+  `
+  clãs: `,
+  Object.entries(CLANS)
+    .map(([clan, types]) => ({
+      clan,
+      types: types,
+      advantages: Object.fromEntries(
+          types.flatMap((attacker_type) => Object.entries(TYPES_EFFECTIVENESSES[attacker_type]).map(
+            ([defender_type, attack_effectiveness]) =>
+              [
+                defender_type,
+                toAttackWithDefenseScore(
+                  attack_effectiveness,
+                  TYPES_EFFECTIVENESSES[defender_type as Type][attacker_type],
+                ),
+              ] as const,
+          ))
+        .sort(([,valueA], [, valueB]) => valueA - valueB)
+        .filter(([_, value]) => value >= 2)
+      ),
+    }))
+    
+    .sort((xA, xB) => {
+      const calc = (advantages: Record<string, number>) =>
+        Object.values(advantages).reduce((sum, value) => sum + value, 0);
+
+      return calc(xB.advantages) - calc(xA.advantages);
+    })
+    .map(
+      (x) =>
+        `${x.clan} (wins against ${
+          Object.entries(x.advantages)
+            .filter(([, value]) => value > 0)
+            .sort((x0, x1) => x1[1] - x0[1])
+            .map(([type, value]) => `${type}${'+'.repeat(value - 1)}`)
+            .join(', ')||'nothing'
+        })`,
+    ),
+);
+
+console.log(
+  `clãs em divisão de hunt: `,
+  Object.entries(CLANS)
+    .map(([clan, types]) => ({
+      clan,
+      types: types,
+      advantages: Object.fromEntries(
+          types.flatMap((attacker_type) => Object.entries(TYPES_EFFECTIVENESSES[attacker_type]).map(
+            ([defender_type, attack_effectiveness]) =>
+              [
+                defender_type,
+                toAttackWithDefenseScore(
+                  attack_effectiveness,
+                  TYPES_EFFECTIVENESSES[defender_type as Type][attacker_type],
+                ),
+              ] as const,
+          ))
+        .sort(([,valueA], [, valueB]) => valueA - valueB)
+        .filter(([_, value]) => value >= 2)
+      ),
+    }))
+    
+    .sort((xA, xB) => {
+      Object.keys(xA.advantages)
 
 
+      const calc = (advantages: Record<string, number>) =>
+        Object.values(advantages).reduce((sum, value) => sum + value, 0);
+
+      return calc(xB.advantages) - calc(xA.advantages);
+    })
+    .map(
+      (x) =>
+        `${x.clan} (wins against ${
+          Object.entries(x.advantages)
+            .filter(([, value]) => value > 0)
+            .sort((x0, x1) => x1[1] - x0[1])
+            .map(([type, value]) => `${type}${'+'.repeat(value - 1)}`)
+            .join(', ')||'nothing'
+        })`,
+    ),
+);
+
+// .map(([type]) => ({
+//   type,
+//   noEffectAgainstIt: getTypesByEffectivenessAgainst(
+//     type,
+//     Effectiveness.NO_EFFECT,
+//   ),
+// }))
+// .filter((x) => x.noEffectAgainstIt.length)
+// .map(
+//   (x) =>
+//     `${x.type} (${x.noEffectAgainstIt.join(', ')} does "no effect" on it)`,
+// )

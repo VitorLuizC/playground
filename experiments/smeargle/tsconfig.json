@@ -3,7 +3,9 @@
   "compilerOptions": {
     "module": "CommonJS",
     "types": ["jest", "node"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
-  "include": ["./src"],
+  "include": ["./src/**/*.ts"],
   "exclude": ["./node_modules"]
 }

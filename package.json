@@ -7,6 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "pnpm": "^6.13.0"
+    "pnpm": "^7.25.1"
   }
 }
