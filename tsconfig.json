@@ -6,12 +6,14 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
 
     // Strictness and quality settings.
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "alwaysStrict": true,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
@@ -20,11 +22,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
+    "useDefineForClassFields": true,
 
     // Type-checking settings.
-    "lib": ["ES2021"],
+    "lib": ["ES2023"],
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "types": [],
-  },
+    "types": []
+  }
 }
